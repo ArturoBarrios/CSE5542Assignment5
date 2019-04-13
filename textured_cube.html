@@ -1,0 +1,90 @@
+<html>
+<head>
+		<title>Assignment 5</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background-color: #000;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				color: #ffffff;
+				padding: 5px;
+				font-family: Monospace;
+				font-size: 13px;
+				text-align: center;
+			}
+			a {
+				color: #ff0080;
+				text-decoration: none;
+			}
+			a:hover {
+				color: #0080ff;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="build/three.js"></script>
+		<script src="build/FlyControls.js"></script>
+		<script>
+			//create scene and camera
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+			var ambient = new THREE.AmbientLight( 0xffffff, 0.1 );
+				scene.add( ambient );
+			var spotLight = new THREE.SpotLight( 0xffffff );
+			spotLight.position.set( 1, 10, 1 );
+
+			spotLight.castShadow = true;
+
+			spotLight.shadow.mapSize.width = 1024;
+			spotLight.shadow.mapSize.height = 1024;
+
+			spotLight.shadow.camera.near = 500;
+			spotLight.shadow.camera.far = 4000;
+			spotLight.shadow.camera.fov = 30;
+
+			scene.add( spotLight );
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			// Load a texture
+			texture = new THREE.TextureLoader().load( "leaves.png" );
+			//create Box
+			geometry = new THREE.BoxGeometry(1,1,1);
+			material = new THREE.MeshBasicMaterial({map:texture});
+
+    	cube = new THREE.Mesh(geometry, material);
+			//add cube to scene
+			scene.add( cube );
+
+			scene.background = new THREE.Color( 0x59472b );
+			//width,height,widthSegments
+
+			var geometry = new THREE.BoxGeometry( 100, .1, 1 );
+			var material = new THREE.MeshBasicMaterial( {color: 0x00000} );
+			var cube = new THREE.Mesh( geometry, material );
+			cube.position.y = -.6
+			scene.add( cube );
+			camera.position.z = 5;
+
+
+
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
